@@ -1,0 +1,27 @@
+
+<div class="container-fluid">
+    <div class="grid">
+
+        {# list #}
+        
+        {# если редактирование, то показываем форму редактирования #}
+        
+        <p>данных для показа нет</p>
+        
+        {% if 1 == 2 %}
+        
+            {% if get.edit_id is defined and list.data[get.edit_id] is defined %}
+
+                {% include 'vendor/didrive_mod/items/1/didrive/t/body.form_add.htm' %}
+
+            {% else %}
+
+                {% include 'vendor/didrive_mod/items/1/didrive/t/body.form_add.htm' %}
+                {% include 'vendor/didrive_mod/items/1/didrive/t/body.list_items.htm' %}
+
+            {% endif %}
+        {% endif %}
+
+        
+    </div>
+</div>

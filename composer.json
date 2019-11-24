@@ -1,7 +1,7 @@
 {
     "name": "didrive_mod/shop_bu",
     "description": "витрина бу объявлений",
-    "version": "0.0.1",
+    "version": "0.0.2",
     
     "keywords": [
         "didrive", "module", "nyos", "uralweb.info"

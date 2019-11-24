@@ -1,0 +1,10 @@
+.list_data img{
+	max-height: 150px;
+	max-width: 150px;
+}
+.edit_sort{ width: 50px; }
+
+.va-top{ vertical-align: top; display:table-cell; }
+
+#addform1 .grid div.row{ padding-top: 5px; padding-bottom:5px; }
+#addform1 .grid div.row:nth-child(2n){ background-color:rgba(0,0,0,0.1); }
