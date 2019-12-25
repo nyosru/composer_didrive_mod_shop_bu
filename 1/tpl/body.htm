@@ -1,0 +1,119 @@
+{#{ pa(post) }#}
+{#{ pa(files) }#}
+
+{% set shop_level = getShopLevel() %}
+
+
+{% if get.option is defined and get.option == 'add' %}
+
+    {% include '/vendor/didrive_mod/shop_bu/1/tpl/body.add.htm' %}
+
+{% elseif get.option is defined and get.option == 'items' and get.ext1 is defined  %}
+
+    {% include '/vendor/didrive_mod/shop_bu/1/tpl/body.item.htm' %}
+
+{% else %}
+
+    <a class="float-right" href="/{{ level }}/add/" >Добавить объявление</a>
+
+    <br/>
+
+    {% set items = shop_bu__get_items(db, get) %}
+    {#{ pa(items) }#}
+
+    <div class="container-fluid">
+        <div class="row">
+
+            {% if items is defined %}
+                {% for k,v in items %}
+
+                    {% if 1 == 1 %}
+                        <div 
+                            class="col-xs-6 col-sm-6 col-md-3 col-lg-4 col-xl-3 shop_bu__item"
+                            xclass="it_item2"
+                            xstyle="border: 1px solid gray;"
+                            >
+                            <div>
+
+                                <a href='/{{ shop_level }}/items/{{ v.id }}/'>
+                                    <div class="img" style="background-image:url('{{ sd }}module_items_image/{{ v.img1 }}');"></div>
+                                </a>
+
+                                <div class="info">
+                                    <a href='/{{ shop_level }}/items/{{ v.id }}/'>
+                                        Бананы 
+                                        <br/>
+                                        4.90 ₽ <strike>69.90 ₽</strike>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endif %}
+
+
+                    {% if 1 == 2 %}            
+                        {% if 1 == 2 %}
+                            <h3>{{ v.name }}</h3>
+
+                            <p style="display:inline-block; padding: 5px 15px;background-color: rgba(0,250,0,0.5);">{{ v.price }} р</p>
+                            <br clear="all" />
+
+                            {% if v.img1 is defined %}
+                                <img src="{{ sd }}module_items_image/{{ v.img1 }}" style="max-height: 150px; max-width: 150px; float: left;" >
+                            {% endif %}
+
+                            {% if v.img2 is defined %}
+                                <img src="{{ sd }}module_items_image/{{ v.img2 }}" style="max-height: 150px; max-width: 150px; float: left;" >
+                            {% endif %}
+
+                            {% if v.img3 is defined %}
+                                <img src="{{ sd }}module_items_image/{{ v.img3 }}" style="max-height: 150px; max-width: 150px; float: left;" >
+                            {% endif %}
+
+                            {% if v.img4 is defined %}
+                                <img src="{{ sd }}module_items_image/{{ v.img4 }}" style="max-height: 150px; max-width: 150px; float: left;" >
+                            {% endif %}
+
+                            {% if v.img5 is defined %}
+                                <img src="{{ sd }}module_items_image/{{ v.img5 }}" style="max-height: 150px; max-width: 150px; float: left;" >
+                            {% endif %}
+
+                            <br clear="all" />
+                            {{ v.opis|raw }}
+                            {#{ pa(v) }#}
+
+                        {% endif %}
+
+                        {% if 1 == 2 %}            
+
+                            <a href='#12'>
+                                <div class="it_item">
+                                    <div>
+                                        <div class="img" style="background-image:url('{{ sd }}module_items_image/{{ v.img1 }}');">
+
+                                        </div>
+                                        <div class="info">
+                                            4.90 ₽ <strike>69.90 ₽</strike>
+                                            <br/> Бананы 
+                                        </div>
+                                    </div>
+                                    <br clear='all' />
+                                    <div class="info2">
+                                        1 кг.
+                                    </div>
+                                </div>
+                            </a>
+
+                        {% endif %}
+                    {% endif %}
+
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endif %}
+
+

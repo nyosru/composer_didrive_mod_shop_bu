@@ -1,0 +1,262 @@
+<h3>Добавить объявление</h3>
+
+<form id="new_add_form" enctype="multipart/form-data" class="" action="" method="post" >
+
+    {#{ pa(cats,2) }#}
+
+    {% set show_form = 'no' %}
+    {#{ pa(get) }#}
+    {% set select_cat = 'no' %}
+
+    {% if get.ext1 is defined %}
+        {% if cats[get.ext1]['cats'] %}
+        {% else %}
+            {% set show_form = 'da' %}
+            {% set select_cat = 'da' %}
+        {% endif %}
+
+        {% if get.ext2 is defined %}
+
+            {% if cats[get.ext1]['cats'][get.ext2]['cats'] is defined %}
+            {% else %}
+                {% set show_form = 'da' %}
+                {% set select_cat = 'da' %}
+            {% endif %}
+
+            {% if get.ext3 is defined %}
+                {% if cats[get.ext1]['cats'][get.ext2]['cats'][get.ext3]['cats'] is defined %}
+                {% else %}
+                    {% set show_form = 'da' %}
+                    {% set select_cat = 'da' %}
+                {% endif %}
+            {% endif %}
+
+        {% endif %}
+
+    {% endif %}
+
+
+    {% if show_form != 'da' %}
+
+        <div id="form_add_all" class="select_catalog_for_new_add" style="xborder: 1px solid gray; padding: 10px;" >
+
+            <div style="float:left; display: inline-block; xborder: 1px solid gray; padding: 10px;" >
+
+                {% for k,v in cats %}
+                    {#{ pa(v) }#}
+                    <a href="/shop/add/{{ k }}/" class="{% if get.ext1 is defined and get.ext1 == k %} active {% endif %}" >{{ v.name }}</a>
+                {% endfor %}
+
+            </div>
+
+            {% if get.ext1 is defined %}
+                {% if cats[get.ext1]['cats'] %}
+
+                    <div style="float:left; display: inline-block; xborder: 1px solid gray; padding: 10px;" >
+
+                        {% for k,v in cats[get.ext1]['cats'] %}
+                            {#{ pa(v) }#}
+                            <a href="/shop/add/{{ get.ext1 }}/{{ k }}/"
+                               class="{% if get.ext2 is defined and get.ext2 == k %} active {% endif %}" 
+                               >{{ v.name }}</a>
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    {% set show_form = 'da' %}
+                    {# показываем форму #}
+                    {% set select_cat = 'da' %}
+
+                {% endif %}
+
+            {% endif %}
+
+
+
+
+
+
+            {% if get.ext2 is defined %}
+                {% if cats[get.ext1]['cats'][get.ext2]['cats'] is defined %}
+                    <div style="float:left; display: inline-block; xborder: 1px solid gray; padding: 10px;" >
+
+                        {% for k,v in cats[get.ext1]['cats'][get.ext2]['cats'] %}
+                            {#{ pa(v) }#}
+                            <a href="/shop/add/{{ get.ext1 }}/{{ get.ext2 }}/{{ k }}/"
+                               class="{% if get.ext3 is defined and get.ext3 == k %} active {% endif %}" 
+                               >{{ v.name }}</a>
+                        {% endfor %}
+
+                    </div>
+                {% else %}
+
+                    {% set show_form = 'da' %}
+                    {# показываем форму #}
+                    {% set select_cat = 'da' %}
+
+                {% endif %}
+            {% endif %}
+
+
+
+            {% if get.ext3 is defined %}
+
+                {% if cats[get.ext1]['cats'][get.ext2]['cats'][get.ext3]['cats'] is defined %}
+
+                    <div style="float:left; display: inline-block; xborder: 1px solid gray; padding: 10px;" >
+
+                        {% for k,v in cats[get.ext1]['cats'][get.ext2]['cats'][get.ext3]['cats'] %}
+                            {#{ pa(v) }#}
+                            <a href="/shop/add/{{ get.ext1 }}/{{ get.ext2 }}/{{ get.ext3 }}/{{ k }}/"
+                               class="{% if get.ext4 is defined and get.ext4 == k %} active {% endif %}" 
+                               >{{ v.name }}</a>
+                        {% endfor %}
+
+                    </div>
+                {% else %}
+
+                    {% set show_form = 'da' %}
+                    {# показываем форму #}
+                    {% set select_cat = 'da' %}
+
+                {% endif %}
+            {% endif %}
+
+            <br clear="all" >
+        </div>
+    {% endif %}
+
+    {#
+    select {{ select_cat }}
+    #}
+
+    {% if show_form == 'da' %}
+
+        <br/>
+        
+        <h4>
+
+            {% if get.ext1 is defined and cats[get.ext1]['name'] %}
+                {{ cats[get.ext1]['name'] }}
+
+                <input type="hidden" name="cat[1]" value="{{ get.ext1 }}" />
+
+                {% if get.ext2 is defined and cats[get.ext1]['cats'][get.ext2]['name'] is defined %}
+                    > {{ cats[get.ext1]['cats'][get.ext2]['name'] }}
+
+                    <input type="hidden" name="cat[2]" value="{{ get.ext2 }}" />
+
+                    {% if get.ext3 is defined and cats[get.ext1]['cats'][get.ext2]['cats'][get.ext3]['name'] is defined %}
+                        > {{ cats[get.ext1]['cats'][get.ext2]['cats'][get.ext3]['name'] }}
+
+                        <input type="hidden" name="cat[3]" value="{{ get.ext3 }}" />
+
+                        {% if get.ext4 is defined and cats[get.ext1]['cats'][get.ext2]['cats'][get.ext3]['cats'][get.ext4]['name'] is defined %}
+                            > {{ cats[get.ext1]['cats'][get.ext2]['cats'][get.ext3]['cats'][get.ext4]['name'] }}
+
+                            <input type="hidden" name="cat[4]" value="{{ get.ext4 }}" />
+
+                        {% endif %}
+
+                    {% endif %}
+
+                {% endif %}
+
+            {% endif %}
+
+        </h4>
+
+    {% endif %}
+
+
+
+    {% if select_cat == 'da' %}
+
+        <br/>
+        
+        <h3>Данные товара</h3>
+
+        <div style="margin-left: 1rem; padding-left: 1rem; border-left: 3px solid #efefef;">
+
+            <div class="form-group">
+                <label for="e1">Название</label>
+                <input type="text" class="form-control" id="e1" 
+                       name="f[name]"
+                       xaria-describedby="emailHelp" xplaceholder="Enter email" >
+                {#
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                #}
+            </div>
+
+            <div class="form-group">
+                <label for="e2">Цена</label>
+                <input type="number" class="form-control" id="e2" 
+                       name="f[price]"
+                       xaria-describedby="emailHelp" xplaceholder="Enter email" >
+                {#
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                #}
+            </div>
+
+            <div class="form-group">
+                <label for="e3">Описание</label>
+                <textarea class="form-control" id="e3" 
+                          name="f[opis]"
+                          xaria-describedby="emailHelp" xplaceholder="Enter email"></textarea>
+                {#
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                #}
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Фотографии</label>
+                <input type="file" name="files[img1]" class="form-control-file" xid="exampleInputPassword1" xplaceholder="Password">
+                <input type="file" name="files[img2]" class="form-control-file" xid="exampleInputPassword1" xplaceholder="Password">
+                <input type="file" name="files[img3]" class="form-control-file" xid="exampleInputPassword1" xplaceholder="Password">
+                <input type="file" name="files[img4]" class="form-control-file" xid="exampleInputPassword1" xplaceholder="Password">
+                <input type="file" name="files[img5]" class="form-control-file" xid="exampleInputPassword1" xplaceholder="Password">
+            </div>
+
+            {#
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+              
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+              #}
+
+        </div>
+
+        <h3>Представтесь</h3>
+
+        <div style="margin-left: 1rem; padding-left: 1rem; border-left: 3px solid #efefef;">
+
+            <div class="form-group"><label for="e10">Как вас зовут</label>
+                <input type="text" class="form-control" id="e10" name="f[autor_name]" xaria-describedby="emailHelp" xplaceholder="Enter email" > {# <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> #} </div>
+
+            <div class="form-group"><label for="e11">Телефон</label>
+                <input type="text" class="form-control" id="e11" name="f[autor_phone]" xaria-describedby="emailHelp" xplaceholder="Enter email" > {# <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> #} </div>
+
+            <div class="form-group"><label for="e12">E-mail</label>
+                <input type="text" class="form-control" id="e12" name="f[autor_mail]" xaria-describedby="emailHelp" xplaceholder="Enter email" > {# <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> #} </div>
+
+            <div class="form-group"><label for="e13">Telegramm</label>
+                <input type="text" class="form-control" id="e13" name="f[autor_telegramm]" xaria-describedby="emailHelp" xplaceholder="Enter email" > {# <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> #} </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary"
+                name="add_new_item" value="Добавить"
+                >Добавить</button>
+
+    {% endif %}
+
+</form>
+
+
